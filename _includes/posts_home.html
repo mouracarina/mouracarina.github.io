@@ -1,0 +1,11 @@
+{% for post in site.posts %}
+<article>
+    <a href="{{ post.url | prepend: site.baseurl }}" class="image"><img src="{{ post.related_image }}" alt="" /></a>
+    <h3>{{ post.title }} </h3>
+    <p>{{ post.preview }}</p>
+    <ul class="actions">
+        <li><a href="{{ post.url | prepend: site.baseurl }}" class="button">Read More</a></li>
+    </ul>
+</article>
+{% endfor %}
+
