@@ -1,81 +1,15 @@
-<!DOCTYPE HTML>
-<!--
-	Editorial by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>Quality Assurance Analysis</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-	</head>
-	<body class="is-preload">
+---
+layout: default
+---
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+{% for post in site.posts %}
+<article>
+    <a href="{{ post.url | prepend: site.baseurl }}" class="image"><img src="images/lamp-david-unsplash.jpg" alt="" /></a>
+    <h3>Article 1</h3>
+    <p>TBD</p>
+    <ul class="actions">
+        <li><a href="#" class="button">Read More</a></li>
+    </ul>
+</article>
+{% endfor %}
 
-				<!-- Main -->
-					<div id="main">
-						<div class="inner">
-
-							<!-- Header -->
-								<header id="header">
-									<a href="index.html" class="logo"><strong>Quality Assurance Analysis</strong> by Carina Moura</a>
-								</header>
-
-							<!-- Banner -->
-								<section id="banner">
-									<div class="content">
-										<header>
-											<h1>Quality Assurance Analysis</h1>
-											<p>A place to share my own methodologies and strategies when faced with complex software implementations</p>
-										</header>
-										<ul class="actions">
-											<li><a href="#" class="button big">About me</a></li>
-										</ul>
-									</div>
-									<span class="image object">
-										<img src="images/front-helloquence-unsplash.jpg" alt="" />
-									</span>
-								</section>
-
-							<!-- Section -->
-								<section>
-									<header class="major">
-										<h2>Articles</h2>
-									</header>
-									<div class="posts">
-										<article>
-											<a href="#" class="image"><img src="images/lamp-david-unsplash.jpg" alt="" /></a>
-											<h3>Article 1</h3>
-											<p>TBD</p>
-											<ul class="actions">
-												<li><a href="#" class="button">Read More</a></li>
-											</ul>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
-											<h3>Article 2</h3>
-											<p>TBD</p>
-											<ul class="actions">
-												<li><a href="#" class="button">Read More</a></li>
-											</ul>
-										</article>
-									</div>
-								</section>
-
-						</div>
-					</div>
-			</div>
-
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-
-	</body>
-</html>

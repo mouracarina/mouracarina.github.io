@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    
+    {% include head.html %}
+
+  <body class="is-preload">
+
+    <!-- Wrapper -->
+        <div id="wrapper">
+
+            <!-- Main -->
+                <div id="main">
+                    <div class="inner">
+
+                        <!-- Header -->
+                        {% include header.html %}
+
+                        <!-- Banner -->
+                        {% include banner.html %}   
+
+                        <!-- Section -->
+                        <section>
+                            <header class="major">
+                                <h2>Articles</h2>
+                            </header>
+                            <div class="posts">
+                                {{ content }}
+                            </div>
+                        </section>  
+
+                        
+
+                    </div>
+                </div>
+        </div>
+
+    <!-- Scripts -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/browser.min.js"></script>
+        <script src="assets/js/breakpoints.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/main.js"></script>
+
+</body>
+</html>
