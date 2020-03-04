@@ -1,29 +1,53 @@
 ---
 layout: post
 title:  "Tiple Post 1"
-date:   2020-03-03 19:09:28 +0000
+date:   2020-03-04 19:09:28 +0000
 categories: article
+preview: "Test article preview"
+related_image: /images/lamp-david-unsplash.jpg
 ---
-You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
 
-Jekyll requires blog post files to be named according to the following format:
+So your team has just developed the latest lamp in the market. Your mission is to test that this lamp works as intended. This should be a pretty straightforward test approach.
+You will not be focusing on tests other than functional at this point. The idea of this exercise is to demonstrate parameter manipulation to ensure we have the write scenario for our intended validations.
 
-`YEAR-MONTH-DAY-title.MARKUP`
+## First iteration
 
-Where `YEAR` is a four-digit number, `MONTH` and `DAY` are both two-digit numbers, and `MARKUP` is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.
+For the first iteration of this project, the lamp has no switch and is only controlled by the fact that it might be plugged in or not.
+Being a little more technical, we have one available parameter to manipulate - **the cord status** - and two possible outcomes to verify - **the light status**.
 
-Jekyll also offers powerful support for code snippets:
+Writing your tests down, would look something like this:
 
-{% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
-{% endhighlight %}
+| Test case                                                    | Preconditions       | Steps                  | Expected     |
+|--------------------------------------------------------------|---------------------|------------------------|--------------|
+| Verify that the light is on when the cord is plugged in      | cord plugged in     | Look at the light bulb | Light is on  |
+| Verify that the light is off when the cord is not plugged in | cord not plugged in | Look at the light bulb | Light is off |
 
-Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
+## Second iteration
 
-[jekyll-docs]: https://jekyllrb.com/docs/home
-[jekyll-gh]:   https://github.com/jekyll/jekyll
-[jekyll-talk]: https://talk.jekyllrb.com/
+After this, your team decides to add a switch. So now the light status will be controlled by this switch. So to write the new test cases we have the same set of outcomes, but you will have two parameters to manipulate now, which are the cord and the switch status.
+
+This is still pretty easy to set up, you have two parameter and you have to combine them. A combination table will give us all test scenarios, that will look something like this:
+
+| Cord status / Switch status | on           | off          |
+|-----------------------------|--------------|--------------|
+| pugged in                   | Light is on  | Light is off |
+| not plugged in              | Light is off | Light is off |
+
+## Product deployment
+
+You deploy this product to production and it's a great success. Well, almost... You start receiving complaints that the switch doesn't work correctly and that the clients are forced to unplug the cord in order to turn the light off.
+But according to your tests this doesn't make any sense. Your team can't understand how this is happening when the tests are all running smoothly.
+
+So you give it a try manually. You turn the switch on and off and you are able to replicate the reported but. That still doesn't explain why the tests are still green. But this validation confirms that a bug does exist, so the automated tests must be the source.
+
+This is a really tricky one. Your tests should be your source of truth and reliable. 
+But you find out that in order to set up the testing environment, you have to set up all sorts of things that where not considered as parameters for your scenarios' analysis. You can call these the **hidden preconditions**. These can be: 
+- what is the room color
+- is the cord made of conductive metal
+- is the light bulb new and healthy
+You get the drill. These are the things you didn't develop in your team directly and don't need to be considering for your testing scenarios, but they might influence your test results.
+
+So as it turns out, for all the tests that where suppose to have the light off, a damaged light bulb was used. So the tests where doing exactly what we wanted to, the lights where off, but for a different reason then the one we wanted to verify. 
+
+
+## section
