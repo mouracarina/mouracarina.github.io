@@ -13,7 +13,7 @@ Your team is tasked to develop the latest lamp in the market. Your mission is to
 
 Keep in mind that the goal is to focus only on functional tests. The idea of this exercise is to demonstrate parameter manipulation, to ensure you have the correct scenarios. Also, all your test cases will be automated.
 
-## First lamp's iteration
+## First lamp's iteration SMALL CHANGE
 
 For the first iteration of this project, the ligth is only controlled by being plugged in to the outlet or not.
 Being more technical, you have one available `parameter` to manipulate - cord status - and two possible `outcomes` to verify - light status.
