@@ -1244,6 +1244,13 @@ input[type="radio"] + label:before {
     .image.main img {
       width: 100%; }
 
+img[src*="#inTextImage"] {
+        width:70%;
+        position: relative;
+        display: block;
+        margin: auto;
+     }
+
 a.image {
   overflow: hidden; }
   a.image img {
