@@ -1245,7 +1245,7 @@ input[type="radio"] + label:before {
       width: 100%; }
 
 img[src*="#inTextImage"] {
-        width:70%;
+        width:90%;
         position: relative;
         display: block;
         margin: auto;

@@ -9,20 +9,22 @@ related_image: /images/Why_does_boundary_testing_work/Boundary_cover.jpg
 
 This technique allows you to reduce the number of validations needed without the need to validate each possible value, whilst guaranteeing the system works as intended. It is applied when the system under testing has different behaviours depending on a certain parameter (usually a number).
 
+In this article we'll go through different techniques to show why the boundary testing technique is the one to use. Let's start by defining what boundary testing is and then well explore an example with the different approaches.
+
 > The **boundary testing technique** consists of picking the extreme values of the ranges that were set and testing only those values
 
 > **Boundary testing technique** can be applied to products that have different behaviours set in ranges. Meaning that it would have a behaviour_A from x to y and another behaviour_B from y to z.
 
-![](/images/Why_does_boundary_testing_work/FECAC405-C5C3-4335-9A32-2F0DCF9DCAFF.jpeg#inTextImage)
-
 ## How it's applied
+
+![](/images/Why_does_boundary_testing_work/FECAC405-C5C3-4335-9A32-2F0DCF9DCAFF.jpeg#inTextImage)
 
 1. **Discovery phase**
    1. Determine the various behaviours → `A, B`
    2. Determine the precise limits of each behaviour → `A = [0, 7]`; `B = [8, 20]`
-   3. Determine the expected outcome outside the limits of all behaviours → `null = ]-∞, -1]`; `null = [21, +∞[$`
+   3. Determine the expected outcome outside the limits of all behaviours → `null = ]-∞, -1]`; `null = [21, +∞[`
 2.  **Test design**
-    1.  Write 2 tests per behaviour. One for the first possible number on the range and the other for the last possible number on the range → `A.tests = 1, 7`; `B.tests = 8, 20`
+    1.  Write 2 tests per behaviour. One for the first possible number on the range and the other for the last possible number on the range → `A.tests = 0, 7`; `B.tests = 8, 20`
     2.  Write 1 test per out of the limits behaviours → `null.tests = -1, 21`
 
 ## Pick your prize example
