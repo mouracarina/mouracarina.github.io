@@ -39,7 +39,7 @@ Let’s use an example to go through this, as it will be easier to visualise. Le
 
 ![](/images/Why_does_boundary_testing_work/F0C01141-998F-445C-BB8C-26CD351800FB.jpeg#inTextImage)
 
-Behind the scenes, this is what ends up being implemented for the award system. This is just some pseudocode that will help explain the impacts of the tests. It is purposefully incorrect, so let's see if the tests will be able to spot the bugs.   
+Behind the scenes, the code below is what ends up being implemented for the award system. This is just some pseudocode that will help explain the impacts of the tests. It is purposefully incorrect, so let's see if the tests will be able to spot the bugs.   
 
 ```jsx
 if (insertedNumber > 30)
@@ -52,11 +52,11 @@ else if (insertedNumber <= 10)
 	award = "Lollipop";
 ```
 
-We'll try different testing approaches to determine what each one is capable of validating.
+We'll try different testing approaches to determine what they'll be capable of validating.
 
 ## The cherry-pick testing technique
 
-Let's start with a simple approach in which we just pick a random number from each of the prizes (each range). We can choose these for example:
+Let's start with a simple approach in which we just pick a random number from each of the prizes (each range). We can choose these, for example:
 
 - 4 - lollipop
 - 15 - mug
@@ -88,13 +88,13 @@ When running the tests again we can verify that all have the same result as befo
 
 ![](/images/Why_does_boundary_testing_work/IMG_0194.jpg#inTextImage)
 
-As you can see, our tests produce the same results and none of them fails. Yet, the implementation is completely different and now, for example, we offer **hats for a range between 9 and 22** instead of the desired requirement to offer **hats for a range between 20 and 30**.
+As shown on the image above, our tests produce the same results and none of them fails. Yet, the implementation is completely different and now, for example, we offer **hats for a range between 9 and 22** instead of the desired requirement to offer **hats for a range between 20 and 30**.
 
 Our tests had full coverage of the 4 behaviours, even though they are not able to validate that the ranges have the correct limit values. This is where this technique falls short. If you only test one random value in each interval you have to understand what you are validating and what you are missing out on. Simulating a change on the implementation and checking if your tests still stand and alert for that change, by failing, is a nice exercise to run.
 
 And to this, a new proposal arises: test all the possible values.
 
-# The "test all the things" testing
+# The "test all the things" testing technique
 
 With this technique, we would be focused on covering all the possible inputs, rather than just focusing on the possible outcomes. Since we are testing all the inputs, this is the only way to guarantee how the ranges are set up... While this is true, it is not a very efficient way to test and spend resources.
 
@@ -108,7 +108,7 @@ For this particular example you could just run one test per number from 0 to 40,
 
 Well, you could write a script to run each scenario, but even with automation, you would be consuming computer resources and execution time. That time will eventually add up if you implement this approach to all the different behaviours in your system.
 
-The other question with automation in these cases is how would you implement your automation script? You could either test the values one by one or use a simple "if logic". If you specify a list with all of the numbers to test, you might accidentally skip a number or miss-type. It is not a very effective way to test and it is error-prone, as you can see exemplified below:
+The other question with automation in these cases is how would you implement your automation script? You could either test the values one by one or use a simple *if logic*. If you specify a list with all of the numbers to test, you might accidentally skip a number or miss-type it. It is not a very effective way to test and it is error-prone, as you can see exemplified below (with the number 20002 instead of 2002):
 
 ```jsx
 var hatValues = {2000, 2001, 20002, 2003, ... }
@@ -127,7 +127,7 @@ else if (insertedNumber < 1000)
 	assetThat(award = "Lollipop");
 ```
 
-Can you spot the problem with the tests that we wrote above? It almost seems like our tests need testing of their own. This is the risk with writing test scripts that contain *loop logic*, is that they become unreliable and with the same uncertain behaviour as the system itself. When creating test scripts it is always advisable that you write them in very explicit ways, with specific values. Something more like this:
+Can you spot the problem with the tests that we wrote above? It almost seems like our tests need testing of their own. This is the risk with writing test scripts that contain *if logic*, as they become unreliable and with the same uncertain behaviour as the system itself. When creating test scripts it is always advisable that you write them in very explicit ways, with specific values. Something more like this:
 
 ```jsx
 test tshirtAwardFor35() {
@@ -140,11 +140,11 @@ test hatAwardFor25() {
 }
 ```
 
-Because this is the recommended way to write your validations, the "test all the things technique" works if you have very small ranges of values but does not scale to larger ranges.
+Because this is the recommended way to write your validations, the "test all the things" technique works if you have very small ranges of values but does not scale to larger ranges.
 
 Since choosing random numbers or testing all of them is not the answer, that is where the boundary testing approach comes to the rescue. To apply it, we first need to go back to the requirements.
 
-## Questions, questions, questions...
+## Discovery phase: questions, questions, questions...
 
 The first thing to do as a tester is to question the requirements. I know this is true for all cases, but especially when dealing with ranges and numbers there is a tendency to have misunderstandings. The goal of this exercise is to have the limits defined in a clear and very verbose way so that we know we are choosing the expected boundary values when designing the tests.
 
@@ -175,7 +175,7 @@ These answers will allow you to build something like this:
 
 ![](/images/Why_does_boundary_testing_work/IMG_0195.jpg#inTextImage)
 
-This is a very exhaustive way to represent what is happening for each number. This is just a support method that you will not need to draw each time, once you get a hold on the technique, but it helps with understanding where the technique comes from. It specifies all the possible values. Each value has one behaviour, and never more than one, even if the behaviour is to "do nothing", or in this case "no gift".
+This is a very exhaustive way to represent what is happening for each number. It is just a support method that you will not need to draw each time, once you get a hold on the technique, but it helps with understanding where the technique comes from. It specifies all the possible values. Each value has one behaviour, and never more than one, even if the behaviour is to "do nothing", or in this case "no gift".
 
 With the questions all done, you can rest assured that your intervals are correctly defined and we can move on to applying the boundary testing technique.
 
@@ -197,11 +197,11 @@ But the important thing now is to understand why does this work. Why am I able t
 
 # Why does the boundary testing technique work?
 
-This only works because we understand how it is being implemented. We know that the implementation uses intervals and *if logics* that were set up with something like `if (insertedNumber > 25)`. If you look closely, this means that the only place where we could have issues is on the number 25 or even the operands `>` or `≥` , since these were defined manually. All the other numbers of the range are being determined by the processor's logic.
+This only works because we understand how it is being implemented. We know that the implementation uses intervals and an *if logic* that was set up with something like `if (insertedNumber > 25)`. If you look closely, this means that the only place where we could have issues is on the number 25 or even the operands `>` or `≥` , since these were defined manually. All the other numbers of the range are being determined by the processor's logic.
 
-Even though I'm mentioning that we should create tests based on the implementation, this does not mean that we are doing *white box testing*, not quite, because we don't need to know the values that were used. With this approach, we are just bringing awareness to the test designed. We are concerned about the implemented algorithm but not with the specific values. This allows us to have tests that target the weakest spots of the system, rather than testing every value. We can consider it as more of a *grey testing technique* since you are very much interested in the methods used to implement the logic and you will base your tests on those methods, but you are not interested in seeing the code for yourself and analyse it.
+Even though I'm mentioning that we should create tests based on the implementation, this does not mean that we are doing *white box testing*, not quite, because we don't need to know the values that were used. We are concerned about the implemented algorithm but not with the specific values. This allows us to have tests that target the weakest spots of the system, rather than testing every value. We can consider it as more of a *grey testing technique* since you are very much interested in the methods used on the code and you will base your tests on those methods, but you are not interested in seeing it for yourself.
 
-If this implementation had been done differently, let's say a list of values like this `if (insertedNumber = {1,2,3,4,5,6,7,8,9})`, we would not have been successful when using boundary testing. If we had just a list of values, the implementation could be missing a number or have a mistyped. This means that the boundary technique wouldn’t apply because all of the values were set up manually. In this case, it would be necessary to test each value, since we had no way to infer that *"since 10 and 19 award a mug, then it is certain that 11, 12, ..., 18 also offer a mug"*. This is why it is important to understand how the implementation was done to assess correctly what testing technique to use.
+If this implementation had been done differently, let's say a list of values like this `if (insertedNumber = {1,2,3,4,5,6,7,8,9})`, we would not have been successful when using boundary testing. If we had just a list of values, the implementation could be missing a number or have one mistyped. This means that the boundary testing technique wouldn’t apply because all of the values were set up manually. In this case, it would be necessary to test each value, since we had no way to infer that *"since 10 and 19 award a mug, then it is certain that 11, 12, ..., 18 also offer a mug"*. This is why it is important to understand how the implementation was done to assess correctly what testing technique to use.
 
 As we did before, now it's time to check our tests and confirm if they would stand some implementation changes.
 
@@ -228,7 +228,7 @@ Here are the results.
 
 ![](/images/Why_does_boundary_testing_work/IMG_0200.jpg#inTextImage)
 
-As you can see by this illustration above, some of our tests are failing. Remember that we have confirmed the requirements in the meantime, so the initial implementation might no longer fit these requirements.
+As you can see by this illustration above, some of our tests are failing (marked with red triangles). Remember that we have confirmed the requirements in the meantime, so the initial implementation might not fit them.
 
 Let's take the Hat's tests for example. We were expecting both 20 and 29 to award the Hat, but the 20 was awarded the Mug. Looking into the code it becomes clear that the issue here is that it is verifying if the number is HIGHER than 20 - `if (insertedNumber > 20)` -, so only 21 or higher will offer the Hat. We can easily fix this, as well as the other offers, by changing `>` by `>=`, as presented below.
 
@@ -272,7 +272,7 @@ Finally we have all the tests ok. It was clear to see that this technique did in
 At first, we had the tests finding an error that we had on the definition of the limits. This was caused by a simple error in the implementation, mistaking `>` with `>=`. This, which seems like a detail, can change your product's behaviour drastically.
 After that, we were able to identify that our product was always offering gifts. The implementation had not taken into account that there were 2 "hidden" ranges, the ones with no gifts to offer.
 
-Just for fun, we can change the implementation with the same conditions that we did on the cherry pick example and see the impact of our tests.
+Just for fun, we can change the implementation with the same conditions that we did on the cherry-pick example and see the impact of our tests.
 
 ```jsx
 if (insertedNumber > 25)
@@ -289,13 +289,13 @@ With this last example, we can see that implementation changes do impact the tes
 
 ![/](/images/Why_does_boundary_testing_work/IMG_0203.jpg#inTextImage)
 
-Be aware that not all tests will fail though, and it is expected. This is also why we need more than one test per range or per limit, as they complement each other and mean nothing when run alone. If you would only test one of the values, say number 30, the test would still be ok. The number 30 is still awarding the Shirt, but this does not prove that the T-shirt range starts at 30. To prove that, you would need to confirm that 29 is not offering the T-shirt. This is the only way you can confirm where the limit is, thus, only with those two tests would we be able to confirm if the limit between Mug and T-shirt was correctly defined.
+Be aware that not all tests will fail though, and this is expected. This is also why we need more than one test per range or per limit, as they complement each other and mean nothing when run alone. If you would only test one of the values, say number 30, the test would still be ok. The number 30 is still awarding the T-shirt, but this does not prove that the T-shirt range starts at 30. To prove that, you would need to confirm that 29 is not offering the T-shirt. This is the only way you can confirm where the limit is, thus, only with those two tests would we be able to confirm if the limit between Mug and T-shirt was correctly defined.
 
 # Final consideration
 
 The boundary testing technique seems very simple but it's not that straightforward. It is also very prone to mistakes since it depends highly on defining the correct limits and testing the exact numbers. But it is a strong technique that allows you to test with certainty without the need to go through all the possible scenarios.
 
-I'll leave you with this question, now that you've seen how it works: **If you have tested the numbers 30 and 40 and this award you a T-shirt, would you expect 31, 35 or 39 not to?** Given that the implementation is going to be using ranges, testing the other numbers adds no value to your tests. Thus, the boundary testing technique focuses on the values that make a difference when testing (boundary values) and ignores redundant validations (other values inside the ranges).
+I'll leave you with this question, now that you've seen how it works: **If you have tested the numbers 30 and 40 and these awarded you a T-shirt, would you expect 31, 35 or 39 not to?** Given that the implementation is going to be using ranges, testing the other numbers adds no value to your tests. The boundary testing technique focuses on the values that make a difference when testing (boundary values) and ignores redundant validations (other values inside the ranges).
 
 > **It is not about the number of tests that you perform, but their intention.**
 
